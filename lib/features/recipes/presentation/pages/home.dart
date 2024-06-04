@@ -1,6 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:recipes_app/core/constants/app_assets.dart';
+import 'package:recipes_app/core/constants/app_constants.dart';
 import 'package:recipes_app/core/constants/view_constants.dart';
+import 'package:recipes_app/features/recipes/presentation/pages/recipes.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -13,9 +16,7 @@ class _HomeState extends State<Home> {
   int _selectedPageIndex = 0;
 
   final List<Widget> _pages = [
-    Container(
-      color: Colors.blue,
-    ),
+    const Recipes(),
     Container(
       color: Colors.green,
     )
@@ -23,9 +24,21 @@ class _HomeState extends State<Home> {
 
   final List<BottomNavigationBarItem> _items = [
     BottomNavigationBarItem(
-        icon: const Icon(Icons.restaurant), label: ViewConstants.recipes.tr()),
+        icon: const ImageIcon(
+          AssetImage(AppAssets.recipes),
+        ),
+        activeIcon: const ImageIcon(
+          AssetImage(AppAssets.recipes),
+        ),
+        label: ViewConstants.recipes.tr()),
     BottomNavigationBarItem(
-        icon: const Icon(Icons.search), label: ViewConstants.explore.tr())
+        icon: const ImageIcon(
+          AssetImage(AppAssets.search),
+        ),
+        activeIcon: const ImageIcon(
+          AssetImage(AppAssets.search),
+        ),
+        label: ViewConstants.explore.tr())
   ];
 
   @override
@@ -36,6 +49,8 @@ class _HomeState extends State<Home> {
         children: _pages,
       ),
       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedPageIndex,
+        selectedFontSize: AppConstants.font12Px,
         items: _items,
         onTap: _onItemTapped,
       ),
