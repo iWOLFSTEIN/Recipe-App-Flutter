@@ -39,11 +39,11 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
     baseTheme = event.theme;
     if (event is LightThemeEvent) {
       themeType = ThemeType.light;
-      _setThemeUseCase.call(theme: AppConstants.light);
+      _setThemeUseCase(theme: AppConstants.light);
       return emit(const LightThemeState());
     } else if (event is DarkThemeEvent) {
       themeType = ThemeType.dark;
-      _setThemeUseCase.call(theme: AppConstants.dark);
+      _setThemeUseCase(theme: AppConstants.dark);
       return emit(const DarkThemeState());
     }
   }

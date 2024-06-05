@@ -11,20 +11,21 @@ class ThemeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeBloc themeBloc = context.watch<ThemeBloc>();
-    final icon = themeBloc.themeType == ThemeType.light
-        ? Icons.light_mode
-        : Icons.dark_mode;
+    bool isLightTheme = themeBloc.themeType == ThemeType.light;
+    final icon = isLightTheme ? Icons.light_mode : Icons.dark_mode;
     return GestureDetector(
         onTap: () {
-          if (themeBloc.themeType == ThemeType.light) {
+          if (isLightTheme) {
             themeBloc.add(DarkThemeEvent());
-          } else if (themeBloc.themeType == ThemeType.dark) {
+          } else {
             themeBloc.add(LightThemeEvent());
           }
         },
         child: Padding(
           padding: const EdgeInsets.all(AppConstants.gap16Px),
-          child: Icon(icon),
+          child: Icon(
+            icon,
+          ),
         ));
   }
 }

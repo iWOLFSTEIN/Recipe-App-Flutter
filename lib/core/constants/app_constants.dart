@@ -1,11 +1,4 @@
-import 'package:flutter/material.dart';
-
 class AppConstants {
-  // Locales
-  static const Locale en = Locale('en');
-  static const Locale ur = Locale('ur');
-  static const Locale hi = Locale('hi');
-
   // FontSize
   static const double font2Px = 2.0;
   static const double font4Px = 4.0;
@@ -35,10 +28,11 @@ class AppConstants {
   static const double gap22Px = 22.0;
   static const double gap24Px = 22.0;
 
-  // Shared Preference keys
+  // Local Storage keys
   static const String theme = 'theme';
+  static const String language = 'language';
 
-  // Shared Preference values
+  // Other Constants
   static const String light = 'light';
   static const String dark = 'dark';
 }

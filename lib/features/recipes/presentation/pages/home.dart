@@ -51,9 +51,6 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         title: Text(
           labels[_selectedPageIndex],
-          style: const TextStyle(
-            fontSize: AppConstants.font20Px,
-          ),
         ),
       ),
       body: IndexedStack(
@@ -61,8 +58,6 @@ class _HomeState extends State<Home> {
         children: _pages,
       ),
       bottomNavigationBar: BottomNavigationBar(
-        selectedIconTheme: IconThemeData(color: themeBloc.baseTheme.secondary),
-        selectedItemColor: themeBloc.baseTheme.secondary,
         currentIndex: _selectedPageIndex,
         selectedFontSize: AppConstants.font12Px,
         items: _items,

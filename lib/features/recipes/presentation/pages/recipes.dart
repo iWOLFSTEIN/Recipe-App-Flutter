@@ -11,7 +11,7 @@ class Recipes extends StatefulWidget {
 }
 
 class _RecipesState extends State<Recipes> {
-  late final ThemeBloc themeBloc = context.read<ThemeBloc>();
+  late final ThemeBloc themeBloc = context.watch<ThemeBloc>();
   final items = [for (int i = 0; i < 10; i++) 'item'];
   @override
   Widget build(BuildContext context) {
@@ -25,8 +25,9 @@ class _RecipesState extends State<Recipes> {
           return Column(
             children: [
               Container(
-                height: 200,
+                height: 400,
                 decoration: BoxDecoration(
+                    border: Border.all(color: themeBloc.baseTheme.border),
                     color: themeBloc.baseTheme.surface,
                     borderRadius: const BorderRadius.all(Radius.circular(20))),
               ),
