@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipes_app/core/constants/app_constants.dart';
 import 'package:recipes_app/features/recipes/presentation/bloc/theme/theme_bloc.dart';
-import 'package:recipes_app/features/recipes/presentation/widgets/theme_button.dart';
 
 class Recipes extends StatefulWidget {
   const Recipes({super.key});
@@ -17,9 +16,6 @@ class _RecipesState extends State<Recipes> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        actions: const [ThemeButton()],
-      ),
       body: SafeArea(
           child: ListView.builder(
         padding: const EdgeInsets.symmetric(

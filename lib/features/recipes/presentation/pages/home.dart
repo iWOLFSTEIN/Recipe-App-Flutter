@@ -5,7 +5,9 @@ import 'package:recipes_app/core/constants/app_assets.dart';
 import 'package:recipes_app/core/constants/app_constants.dart';
 import 'package:recipes_app/core/constants/view_constants.dart';
 import 'package:recipes_app/features/recipes/presentation/bloc/theme/theme_bloc.dart';
+import 'package:recipes_app/features/recipes/presentation/pages/explore.dart';
 import 'package:recipes_app/features/recipes/presentation/pages/recipes.dart';
+import 'package:recipes_app/features/recipes/presentation/pages/settings.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -18,37 +20,42 @@ class _HomeState extends State<Home> {
   late final ThemeBloc themeBloc = context.read<ThemeBloc>();
   int _selectedPageIndex = 0;
 
-  final List<Widget> _pages = [
-    const Recipes(),
-    Container(
-      color: Colors.green,
-    ),
-    Container(
-      color: Colors.blue,
-    ),
+  final List<Widget> _pages = const [Recipes(), Explore(), Settings()];
+  final List<String> labels = [
+    ViewConstants.recipes.tr(),
+    ViewConstants.explore.tr(),
+    ViewConstants.settings.tr()
   ];
 
-  final List<BottomNavigationBarItem> _items = [
+  late final List<BottomNavigationBarItem> _items = [
     BottomNavigationBarItem(
         icon: const ImageIcon(
           AssetImage(AppAssets.recipes),
         ),
-        label: ViewConstants.recipes.tr()),
+        label: labels[0]),
     BottomNavigationBarItem(
         icon: const ImageIcon(
           AssetImage(AppAssets.search),
         ),
-        label: ViewConstants.explore.tr()),
+        label: labels[1]),
     BottomNavigationBarItem(
         icon: const ImageIcon(
           AssetImage(AppAssets.settings),
         ),
-        label: ViewConstants.settings.tr())
+        label: labels[2])
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          labels[_selectedPageIndex],
+          style: const TextStyle(
+            fontSize: AppConstants.font20Px,
+          ),
+        ),
+      ),
       body: IndexedStack(
         index: _selectedPageIndex,
         children: _pages,
