@@ -10,10 +10,13 @@ import 'package:recipes_app/features/recipes/domain/usecases/theme/set_theme.dar
 part 'theme_event.dart';
 part 'theme_state.dart';
 
+enum ThemeType { light, dark }
+
 class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
   final GetThemeUseCase _getThemeUseCase;
   final SetThemeUseCase _setThemeUseCase;
   late BaseTheme baseTheme;
+  late ThemeType themeType;
 
   ThemeBloc(this._getThemeUseCase, this._setThemeUseCase)
       : super(const InitialThemeState()) {
@@ -24,8 +27,10 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
   void _setInitialTheme() {
     final String storedTheme = _getThemeUseCase();
     if (storedTheme == AppConstants.light) {
+      themeType = ThemeType.light;
       baseTheme = LightTheme();
     } else if (storedTheme == AppConstants.dark) {
+      themeType = ThemeType.dark;
       baseTheme = DarkTheme();
     }
   }
@@ -33,9 +38,11 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
   void _setTheme(ThemeEvent event, Emitter<ThemeState> emit) async {
     baseTheme = event.theme;
     if (event is LightThemeEvent) {
+      themeType = ThemeType.light;
       _setThemeUseCase.call(theme: AppConstants.light);
       return emit(const LightThemeState());
     } else if (event is DarkThemeEvent) {
+      themeType = ThemeType.dark;
       _setThemeUseCase.call(theme: AppConstants.dark);
       return emit(const DarkThemeState());
     }

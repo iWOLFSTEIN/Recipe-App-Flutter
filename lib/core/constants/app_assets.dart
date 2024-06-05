@@ -7,4 +7,5 @@ class AppAssets {
   static const String _icons = "assets/icons";
   static const String search = "$_icons/search.png";
   static const String recipes = "$_icons/recipes.png";
+  static const String settings = "$_icons/settings.png";
 }

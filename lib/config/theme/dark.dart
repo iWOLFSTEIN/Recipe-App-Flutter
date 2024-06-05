@@ -7,8 +7,12 @@ class DarkTheme implements BaseTheme {
   @override
   final Color secondary = const Color(0xFF00b4d8);
   @override
+  final Color surface = const Color(0xFF90e0ef);
+  @override
   final Color background = const Color(0xFF03045e);
 
   @override
-  final ThemeData themeData = ThemeData();
+  late final ThemeData themeData = ThemeData(
+      scaffoldBackgroundColor: background,
+      colorScheme: ColorScheme.fromSeed(seedColor: primary));
 }

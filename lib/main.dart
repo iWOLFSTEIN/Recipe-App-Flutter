@@ -50,6 +50,7 @@ class RecipesApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (context, state) {
+        print('printing the emitted state: $state');
         final ThemeBloc themeBloc = context.read<ThemeBloc>();
         return MaterialApp(
           debugShowCheckedModeBanner: false,
