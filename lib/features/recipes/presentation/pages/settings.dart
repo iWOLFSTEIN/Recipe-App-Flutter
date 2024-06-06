@@ -59,12 +59,14 @@ class LanguageTile extends StatelessWidget {
           padding: EdgeInsets.all(AppConstants.gap16Px),
           child: Icon(Icons.arrow_forward_ios),
         ),
-        onTap: () {
-          showModalSheet(
-              backgroundColor: themeBloc.baseTheme.identity,
-              context: context,
-              content: const LanguageBottomSheet());
-        });
+        onTap: () => onTap(context));
+  }
+
+  void onTap(context) {
+    showModalSheet(
+        backgroundColor: themeBloc.baseTheme.identity,
+        context: context,
+        content: const LanguageBottomSheet());
   }
 }
 
@@ -84,34 +86,37 @@ class SettingsTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeBloc themeBloc = context.read<ThemeBloc>();
-    return Container(
-      padding: const EdgeInsets.all(AppConstants.gap16Px),
-      decoration: BoxDecoration(
-          color: themeBloc.baseTheme.identity,
-          border: Border.all(color: themeBloc.baseTheme.border),
-          borderRadius: const BorderRadius.all(Radius.circular(20))),
-      child: Row(
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TranslatedText(
-                title,
-                style: TextStyle(
-                    fontSize: AppConstants.font18Px,
-                    color: themeBloc.baseTheme.primaryText),
-              ),
-              TranslatedText(
-                subtitle,
-                style: TextStyle(
-                    fontSize: AppConstants.font14Px,
-                    color: themeBloc.baseTheme.secondaryText),
-              ),
-            ],
-          ),
-          const Spacer(),
-          trailing
-        ],
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(AppConstants.gap16Px),
+        decoration: BoxDecoration(
+            color: themeBloc.baseTheme.identity,
+            border: Border.all(color: themeBloc.baseTheme.border),
+            borderRadius: const BorderRadius.all(Radius.circular(20))),
+        child: Row(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TranslatedText(
+                  title,
+                  style: TextStyle(
+                      fontSize: AppConstants.font18Px,
+                      color: themeBloc.baseTheme.primaryText),
+                ),
+                TranslatedText(
+                  subtitle,
+                  style: TextStyle(
+                      fontSize: AppConstants.font14Px,
+                      color: themeBloc.baseTheme.secondaryText),
+                ),
+              ],
+            ),
+            const Spacer(),
+            trailing
+          ],
+        ),
       ),
     );
   }

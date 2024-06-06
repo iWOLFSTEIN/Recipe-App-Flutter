@@ -9,6 +9,7 @@ dynamic showModalSheet({
   bool isScrollControlled = false,
 }) async {
   final result = await showModalBottomSheet(
+      useRootNavigator: true,
       context: context,
       useSafeArea: useSafeArea,
       showDragHandle: showDragHandle,

@@ -6,7 +6,7 @@ extension SerializedLocale on Locale {
         'countryCode': countryCode ?? '',
       };
 
-  static Locale fromJson(Map<String, String> json) {
+  static Locale fromJson(Map<String, dynamic> json) {
     return Locale(
       json['languageCode'] ?? '',
       json['countryCode']?.isEmpty ?? true ? null : json['countryCode'],

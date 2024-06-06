@@ -28,9 +28,8 @@ class LanguageBloc extends Bloc<LanguageEvent, LanguageState> {
   }
 
   void setLanguage(LanguageEvent event, Emitter<LanguageState> emit) async {
-    event.context.setLocale(event.locale);
-    final Language language = Language(name: event.name, locale: event.locale);
-    selectedLanguage = language;
+    event.context.setLocale(event.language.locale);
+    selectedLanguage = event.language;
     await _setLanguageUseCase(language: selectedLanguage);
     emit(const ChangedLanguageState());
   }
