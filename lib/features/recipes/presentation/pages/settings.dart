@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:recipes_app/config/router/app_router.dart';
 import 'package:recipes_app/core/constants/app_constants.dart';
 import 'package:recipes_app/core/constants/view_constants.dart';
 import 'package:recipes_app/core/utils/bottom_sheets_manager.dart';
@@ -21,22 +23,31 @@ class _SettingsState extends State<Settings> {
   late final ThemeBloc themeBloc = context.watch<ThemeBloc>();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-          child: ListView(
-        padding: const EdgeInsets.symmetric(
-            horizontal: AppConstants.gap16Px, vertical: AppConstants.gap24Px),
-        children: [
-          SettingsTile(
-              title: ViewConstants.theme,
-              subtitle: themeBloc.themeType == ThemeType.light
-                  ? ViewConstants.light
-                  : ViewConstants.dark,
-              trailing: const ThemeButton()),
-          const Gap(AppConstants.font16Px),
-          LanguageTile(themeBloc: themeBloc),
-        ],
-      )),
+    return WillPopScope(
+      onWillPop: () async {
+        context.pop(AppRouter.settings.id);
+        return true;
+      },
+      child: Scaffold(
+        body: PopScope(
+          child: SafeArea(
+              child: ListView(
+            padding: const EdgeInsets.symmetric(
+                horizontal: AppConstants.gap16Px,
+                vertical: AppConstants.gap24Px),
+            children: [
+              SettingsTile(
+                  title: ViewConstants.theme,
+                  subtitle: themeBloc.themeType == ThemeType.light
+                      ? ViewConstants.light
+                      : ViewConstants.dark,
+                  trailing: const ThemeButton()),
+              const Gap(AppConstants.font16Px),
+              LanguageTile(themeBloc: themeBloc),
+            ],
+          )),
+        ),
+      ),
     );
   }
 }

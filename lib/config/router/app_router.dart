@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:recipes_app/config/router/route_item.dart';
 import 'package:recipes_app/features/recipes/presentation/pages/explore.dart';
-import 'package:recipes_app/features/recipes/presentation/pages/home.dart';
+import 'package:recipes_app/features/recipes/presentation/pages/main_view.dart';
 import 'package:recipes_app/features/recipes/presentation/pages/recipes.dart';
 import 'package:recipes_app/features/recipes/presentation/pages/settings.dart';
 
 class AppRouter {
-  static const RouteItem recipes = RouteItem(name: 'recipes', path: '/recipes');
-  static const RouteItem explore = RouteItem(name: 'explore', path: '/explore');
+  static const RouteItem recipes =
+      RouteItem(id: 0, name: 'recipes', path: '/recipes');
+  static const RouteItem explore =
+      RouteItem(id: 1, name: 'explore', path: '/explore');
   static const RouteItem settings =
-      RouteItem(name: 'settings', path: '/settings');
+      RouteItem(id: 2, name: 'settings', path: '/settings');
 
   static final GlobalKey<NavigatorState> _shellNavigatorKey =
       GlobalKey<NavigatorState>();
@@ -20,7 +22,7 @@ class AppRouter {
       ShellRoute(
         navigatorKey: _shellNavigatorKey,
         builder: (context, state, child) {
-          return Home(child: child);
+          return MainView(child: child);
         },
         routes: [
           GoRoute(

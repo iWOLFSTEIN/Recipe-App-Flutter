@@ -7,30 +7,33 @@ import 'package:recipes_app/core/constants/app_assets.dart';
 import 'package:recipes_app/core/constants/app_constants.dart';
 import 'package:recipes_app/core/constants/view_constants.dart';
 import 'package:recipes_app/features/recipes/presentation/bloc/theme/theme_bloc.dart';
+import 'package:recipes_app/features/recipes/presentation/widgets/translated_text.dart';
 
-class Home extends StatefulWidget {
-  const Home({super.key, required this.child});
+class MainView extends StatefulWidget {
+  const MainView({super.key, required this.child});
 
   final Widget child;
 
   @override
-  State<Home> createState() => _HomeState();
+  State<MainView> createState() => _MainViewState();
 }
 
-class _HomeState extends State<Home> {
+class _MainViewState extends State<MainView> {
   late final ThemeBloc themeBloc = context.read<ThemeBloc>();
-  final List<int> navigatorStack = [];
+  final List<int> navigationStack = [];
+
   int _selectedPageIndex = 0;
 
-  final Map<int, String> _pages = {
+  final Map<int, String> _routes = {
     0: AppRouter.recipes.path,
     1: AppRouter.explore.path,
     2: AppRouter.settings.path
   };
+
   final List<String> labels = [
-    ViewConstants.recipes.tr(),
-    ViewConstants.explore.tr(),
-    ViewConstants.settings.tr()
+    ViewConstants.recipes,
+    ViewConstants.explore,
+    ViewConstants.settings
   ];
 
   late final List<BottomNavigationBarItem> _items = [
@@ -38,24 +41,24 @@ class _HomeState extends State<Home> {
         icon: const ImageIcon(
           AssetImage(AppAssets.recipes),
         ),
-        label: labels[0]),
+        label: labels[0].tr()),
     BottomNavigationBarItem(
         icon: const ImageIcon(
           AssetImage(AppAssets.search),
         ),
-        label: labels[1]),
+        label: labels[1].tr()),
     BottomNavigationBarItem(
         icon: const ImageIcon(
           AssetImage(AppAssets.settings),
         ),
-        label: labels[2])
+        label: labels[2].tr())
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: TranslatedText(
           labels[_selectedPageIndex],
         ),
       ),
@@ -73,20 +76,15 @@ class _HomeState extends State<Home> {
     final int previousIndex = _selectedPageIndex;
     _selectedPageIndex = index;
     setState(() {});
-    navigatorStack.add(_selectedPageIndex);
-
-    if (previousIndex == index) return;
-    if (index == 0) {
-      context.go(_pages[_selectedPageIndex]!);
-    } else {
-      context.push(_pages[_selectedPageIndex]!);
-    }
+    _navigateToPage(previousIndex, index);
   }
 
-  void onPop() {
-    if (navigatorStack.isEmpty) return;
-    _selectedPageIndex = navigatorStack.removeLast();
-    print('printing current index');
+  void _navigateToPage(int previousIndex, int index) async {
+    if (previousIndex == index) return;
+    navigationStack.add(previousIndex);
+    final int? poppedIndex = await context.push(_routes[_selectedPageIndex]!);
+    if (navigationStack.isEmpty || poppedIndex == null) return;
+    _selectedPageIndex = navigationStack.removeLast();
     setState(() {});
   }
 }
