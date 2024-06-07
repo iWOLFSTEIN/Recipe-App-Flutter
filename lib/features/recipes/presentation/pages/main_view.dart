@@ -20,7 +20,6 @@ class MainView extends StatefulWidget {
 
 class _MainViewState extends State<MainView> {
   late final ThemeBloc themeBloc = context.read<ThemeBloc>();
-  final List<int> navigationStack = [];
 
   int _selectedPageIndex = 0;
 
@@ -81,10 +80,10 @@ class _MainViewState extends State<MainView> {
 
   void _navigateToPage(int previousIndex, int index) async {
     if (previousIndex == index) return;
-    navigationStack.add(previousIndex);
+    AppRouter.navigationStack.add(previousIndex);
     final int? poppedIndex = await context.push(_routes[_selectedPageIndex]!);
-    if (navigationStack.isEmpty || poppedIndex == null) return;
-    _selectedPageIndex = navigationStack.removeLast();
+    if (AppRouter.navigationStack.isEmpty || poppedIndex == null) return;
+    _selectedPageIndex = AppRouter.navigationStack.removeLast();
     setState(() {});
   }
 }

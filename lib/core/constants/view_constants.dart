@@ -7,4 +7,5 @@ class ViewConstants {
   static const String dark = "dark";
   static const String language = "language";
   static const String languages = "languages";
+  static const String search = "search";
 }

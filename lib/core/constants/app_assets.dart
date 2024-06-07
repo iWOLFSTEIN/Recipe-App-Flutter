@@ -1,7 +1,7 @@
 class AppAssets {
   // Translations
   static const String _translations = "assets/translations";
-  static const String translations = "$_translations/translations.csv";
+  static const String translations = "$_translations/translations - Sheet1.csv";
 
   // Icons
   static const String _icons = "assets/icons";
