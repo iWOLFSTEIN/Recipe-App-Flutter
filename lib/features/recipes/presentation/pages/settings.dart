@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
+// import 'package:go_router/go_router.dart';
 import 'package:recipes_app/config/router/app_router.dart';
 import 'package:recipes_app/core/constants/app_constants.dart';
 import 'package:recipes_app/core/constants/view_constants.dart';
@@ -25,7 +25,10 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        context.pop(AppRouter.settings.id);
+        // AppRouter.navigationStack.removeLast();
+        // context.pop(AppRouter.settings.id);
+        AppRouter.navigationStack
+            .pop(context, currentId: AppRouter.settings.id);
         return true;
       },
       child: Scaffold(

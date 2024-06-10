@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:recipes_app/config/router/app_router.dart';
 import 'package:recipes_app/core/constants/app_assets.dart';
 import 'package:recipes_app/core/constants/app_constants.dart';
@@ -80,10 +79,18 @@ class _MainViewState extends State<MainView> {
 
   void _navigateToPage(int previousIndex, int index) async {
     if (previousIndex == index) return;
-    AppRouter.navigationStack.add(previousIndex);
-    final int? poppedIndex = await context.push(_routes[_selectedPageIndex]!);
-    if (AppRouter.navigationStack.isEmpty || poppedIndex == null) return;
-    _selectedPageIndex = AppRouter.navigationStack.removeLast();
+    // AppRouter.navigationStack.add(previous: previousIndex, next: index);
+    // final int? poppedIndex = await context.push(_routes[_selectedPageIndex]!);
+    // if (AppRouter.navigationStack.isEmpty || poppedIndex == null) {
+    //   return;
+    // }
+    // _selectedPageIndex = AppRouter.navigationStack.removeLast();
+
+    _selectedPageIndex = await AppRouter.navigationStack.push(context,
+            destinationPath: _routes[_selectedPageIndex]!,
+            currentId: previousIndex,
+            destinationId: index) ??
+        0;
     setState(() {});
   }
 }
