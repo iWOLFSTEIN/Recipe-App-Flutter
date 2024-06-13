@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:go_router/go_router.dart';
 import 'package:recipes_app/config/router/app_router.dart';
 import 'package:recipes_app/core/constants/app_constants.dart';
 import 'package:recipes_app/features/recipes/presentation/bloc/theme/theme_bloc.dart';
@@ -19,8 +18,6 @@ class _RecipesState extends State<Recipes> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        // AppRouter.navigationStack.removeLast();
-        // context.pop(AppRouter.recipes.id);
         AppRouter.navigationStack.pop(context, currentId: AppRouter.recipes.id);
         return true;
       },
@@ -31,25 +28,59 @@ class _RecipesState extends State<Recipes> {
               horizontal: AppConstants.gap16Px, vertical: AppConstants.gap20Px),
           itemCount: items.length,
           itemBuilder: (context, index) {
-            return Column(
-              children: [
-                Container(
-                  height: 400,
-                  decoration: BoxDecoration(
-                      border: Border.all(color: themeBloc.baseTheme.border),
-                      color: themeBloc.baseTheme.surface,
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(20))),
-                ),
-                if (index != items.length - 1)
-                  const SizedBox(
-                    height: AppConstants.gap16Px,
-                  )
-              ],
-            );
+            return RecipeItem(
+                themeBloc: themeBloc, isLastItem: index != items.length - 1);
           },
         )),
       ),
+    );
+  }
+}
+
+class RecipeItem extends StatelessWidget {
+  const RecipeItem({
+    super.key,
+    required this.themeBloc,
+    required this.isLastItem,
+  });
+
+  final ThemeBloc themeBloc;
+  final bool isLastItem;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          height: 400,
+          width: double.infinity,
+          decoration: BoxDecoration(
+              border: Border.all(color: themeBloc.baseTheme.border),
+              color: themeBloc.baseTheme.surface,
+              borderRadius: const BorderRadius.all(Radius.circular(20))),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(AppConstants.gap16Px),
+                child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      border: Border.all(color: themeBloc.baseTheme.border)),
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    child: Image.network(
+                        'https://cdn.dummyjson.com/recipe-images/1.webp'),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+        if (isLastItem)
+          const SizedBox(
+            height: AppConstants.gap16Px,
+          )
+      ],
     );
   }
 }

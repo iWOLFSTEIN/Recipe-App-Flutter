@@ -1,4 +1,12 @@
 class AppConstants {
+  // Apis
+  static const String baseUrl = 'https://dummyjson.com';
+  static const String recipes = 'https://dummyjson.com/recipes';
+  static Map<String, dynamic> headers() => {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      };
+
   // FontSize
   static const double font2Px = 2.0;
   static const double font4Px = 4.0;
