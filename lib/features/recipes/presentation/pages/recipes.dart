@@ -3,7 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:recipes_app/config/router/app_router.dart';
 import 'package:recipes_app/core/constants/app_constants.dart';
+import 'package:recipes_app/features/recipes/domain/entities/recipes.dart';
+import 'package:recipes_app/features/recipes/presentation/bloc/recipes/recipes_bloc.dart';
 import 'package:recipes_app/features/recipes/presentation/bloc/theme/theme_bloc.dart';
+import 'package:recipes_app/features/recipes/presentation/widgets/loading_error_info.dart';
 
 class Recipes extends StatefulWidget {
   const Recipes({super.key});
@@ -14,7 +17,6 @@ class Recipes extends StatefulWidget {
 
 class _RecipesState extends State<Recipes> {
   late final ThemeBloc themeBloc = context.watch<ThemeBloc>();
-  final items = [for (int i = 0; i < 10; i++) 'item'];
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -23,14 +25,32 @@ class _RecipesState extends State<Recipes> {
         return true;
       },
       child: Scaffold(
-        body: SafeArea(
-            child: ListView.builder(
-          padding: const EdgeInsets.symmetric(
-              horizontal: AppConstants.gap16Px, vertical: AppConstants.gap20Px),
-          itemCount: items.length,
-          itemBuilder: (context, index) {
-            return RecipeItem(
-                themeBloc: themeBloc, isLastItem: index != items.length - 1);
+        body: SafeArea(child: BlocBuilder<RecipesBloc, RecipesState>(
+          builder: (context, state) {
+            if (state is RecipesLoading) {
+              return const CustomLoadingWidget();
+            } else if (state is RecipesException) {
+              return CustomErrorWidget(
+                message: state.exception.toString(),
+              );
+            }
+
+            final List recipes = state.response!.recipes!;
+
+            if (recipes.isEmpty) return const CustomInfoWidget();
+
+            return ListView.builder(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: AppConstants.gap16Px,
+                  vertical: AppConstants.gap20Px),
+              itemCount: recipes.length,
+              itemBuilder: (context, index) {
+                return RecipeItem(
+                    recipe: recipes[index],
+                    themeBloc: themeBloc,
+                    isLastItem: index != recipes.length - 1);
+              },
+            );
           },
         )),
       ),
@@ -43,13 +63,21 @@ class RecipeItem extends StatelessWidget {
     super.key,
     required this.themeBloc,
     required this.isLastItem,
+    required this.recipe,
   });
 
+  final RecipeEntity recipe;
   final ThemeBloc themeBloc;
   final bool isLastItem;
 
   @override
   Widget build(BuildContext context) {
+    final String coverImage = recipe.image ?? '';
+    final String name = recipe.name ?? '';
+    final double rating = recipe.rating ?? 0.0;
+    final String difficulty = recipe.difficulty ?? '';
+    final String cuisine = recipe.cuisine ?? '';
+    print(coverImage);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -76,9 +104,29 @@ class RecipeItem extends StatelessWidget {
                         borderRadius:
                             const BorderRadius.all(Radius.circular(15)),
                         child: Image.network(
-                          'https://cdn.dummyjson.com/recipe-images/1.webp',
+                          coverImage,
                           height: 350,
                           fit: BoxFit.cover,
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return Center(
+                              child: SizedBox(
+                                  width: 100,
+                                  height: 2,
+                                  child: LinearProgressIndicator(
+                                    value: (loadingProgress
+                                            .cumulativeBytesLoaded) /
+                                        (loadingProgress.expectedTotalBytes ??
+                                            1.0),
+                                  )),
+                            );
+                          },
+                          errorBuilder: (context, error, stackTrace) =>
+                              const Center(
+                                  child: Icon(
+                            Icons.broken_image,
+                            size: 24,
+                          )),
                         ),
                       ),
                       Column(
@@ -99,7 +147,7 @@ class RecipeItem extends StatelessWidget {
                                       color: themeBloc.baseTheme.identity
                                           .withOpacity(0.7)),
                                   child: Text(
-                                    'Easy',
+                                    difficulty,
                                     style: TextStyle(
                                         color: themeBloc.baseTheme.primaryText),
                                   ),
@@ -123,14 +171,14 @@ class RecipeItem extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Recipe name',
+                            name,
                             style: TextStyle(
                                 color: themeBloc.baseTheme.primaryText,
                                 fontSize: AppConstants.font16Px,
                                 fontWeight: FontWeight.w600),
                           ),
                           Text(
-                            'Recipe name',
+                            cuisine,
                             style: TextStyle(
                                 color: themeBloc.baseTheme.secondaryText,
                                 fontSize: AppConstants.font12Px,
@@ -140,8 +188,8 @@ class RecipeItem extends StatelessWidget {
                         ],
                       ),
                       const Spacer(),
-                      const RatingBar(
-                        rating: 3.6,
+                      RatingBar(
+                        rating: rating,
                       )
                     ],
                   ),

@@ -2,6 +2,20 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:logger/logger.dart';
 import 'package:recipes_app/core/resources/data_state.dart';
 
+class NetworkException implements Exception {
+  final String? message;
+  final String? path;
+
+  NetworkException({this.message = 'An error occured!', this.path});
+
+  @override
+  String toString() {
+    Object? message = this.message;
+    if (message == null) return "Exception";
+    return "Exception: $message";
+  }
+}
+
 class ErrorHandler {
   static Future<DataState<T>> onNetworkRequest<T>(
       {required Future<T> Function() fetch}) async {

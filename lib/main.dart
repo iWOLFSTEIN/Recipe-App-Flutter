@@ -39,7 +39,7 @@ class MainApp extends StatelessWidget {
         create: (_) => sl(),
       ),
       BlocProvider<RecipesBloc>(
-        create: (_) => sl(),
+        create: (_) => sl()..add(const GetRecipes()),
       ),
     ], child: const RecipesApp());
   }

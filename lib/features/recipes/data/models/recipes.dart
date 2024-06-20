@@ -1,3 +1,4 @@
+import 'package:recipes_app/core/utils/helper_functions.dart';
 import 'package:recipes_app/features/recipes/domain/entities/recipes.dart';
 
 class RecipesResponse extends RecipesResponseEntity {
@@ -48,8 +49,6 @@ class Recipe extends RecipeEntity {
       return const Recipe();
     }
 
-    const String modelInfo = 'file: model/recipes.dart\n model: Recipe\n';
-
     final id = json['id'];
     final name = json['name'];
     final ingredients = json['ingredients'];
@@ -63,39 +62,42 @@ class Recipe extends RecipeEntity {
     final tags = json['tags'];
     final userId = json['userId'];
     final image = json['image'];
-    final rating = json['rating'];
+    final rating = json['rating']?.toDouble();
     final reviewCount = json['reviewCount'];
     final mealType = json['mealType'];
 
-    assert(id is int?, '$modelInfo message: Expected id to be int?');
-    assert(name is String?, '$modelInfo message: Expected name to be String?');
+    assert(
+        id is int?, 'Recipe excpects id to be int? but recieved ${typeOf(id)}');
+    assert(name is String?,
+        'Recipe excpects name to be String? but recieved ${typeOf(id)}');
     assert(ingredients is List<dynamic>?,
-        '$modelInfo message: Expected ingredients to be List<dynamic>?');
+        'Recipe excpects ingredients to be List<dynamic>? but recieved ${typeOf(id)}');
     assert(instructions is List<dynamic>?,
-        '$modelInfo message: Expected instructions to be List<dynamic>?');
+        'Recipe excpects instructions to be List<dynamic>? but recieved ${typeOf(id)}');
     assert(prepTimeMinutes is int?,
-        '$modelInfo message: Expected prepTimeMinutes to be int?');
+        'Recipe excpects prepTimeMinutes to be int? but recieved ${typeOf(id)}');
     assert(cookTimeMinutes is int?,
-        '$modelInfo message: Expected cookTimeMinutes to be int?');
-    assert(
-        servings is int?, '$modelInfo message: Expected servings to be int?');
+        'Recipe excpects cookTimeMinutes to be int? but recieved ${typeOf(id)}');
+    assert(servings is int?,
+        'Recipe excpects servings to be int? but recieved ${typeOf(id)}');
     assert(difficulty is String?,
-        '$modelInfo message: Expected difficulty to be String?');
+        'Recipe excpects difficulty to be String? but recieved ${typeOf(id)}');
     assert(cuisine is String?,
-        '$modelInfo message: Expected cuisine to be String?');
+        'Recipe excpects cuisine to be String? but recieved ${typeOf(id)}');
     assert(caloriesPerServing is int?,
-        '$modelInfo message: Expected caloriesPerServing to be int?');
+        'Recipe excpects caloriesPerServing to be int? but recieved ${typeOf(id)}');
     assert(tags is List<dynamic>?,
-        '$modelInfo message: Expected tags to be List<dynamic>?');
-    assert(userId is int?, '$modelInfo message: Expected userId to be int?');
-    assert(
-        image is String?, '$modelInfo message: Expected image to be String?');
-    assert(
-        rating is double?, '$modelInfo message: Expected rating to be double?');
+        'Recipe excpects tags to be List<dynamic>? but recieved ${typeOf(id)}');
+    assert(userId is int?,
+        'Recipe excpects userId to be int? but recieved ${typeOf(id)}');
+    assert(image is String?,
+        'Recipe excpects image to be String? but recieved ${typeOf(id)}');
+    assert(rating is double?,
+        'Recipe excpects rating to be double? but recieved ${typeOf(id)}');
     assert(reviewCount is int?,
-        '$modelInfo message: Expected reviewCount to be int?');
+        'Recipe excpects reviewCount to be int? but recieved ${typeOf(id)}');
     assert(mealType is List<dynamic>?,
-        '$modelInfo message: Expected mealType to be List<dynamic>?');
+        'Recipe excpects mealType to be List<dynamic>?');
 
     return Recipe(
       id: id,

@@ -8,4 +8,10 @@ class ViewConstants {
   static const String language = "language";
   static const String languages = "languages";
   static const String search = "search";
+
+  // Error Messages
+  static const String anErrorOccured = "anErrorOccured";
+
+  // Info Messages
+  static const String noDataFound = "noDataFound";
 }
