@@ -10,6 +10,7 @@ abstract class BaseTheme {
   Color get primaryText;
   Color get secondaryText;
   Color get border;
+  Color get icon;
 
   ThemeData get themeData;
 }

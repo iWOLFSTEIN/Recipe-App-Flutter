@@ -18,9 +18,11 @@ class LightTheme implements BaseTheme {
   @override
   final Color primaryText = Colors.black;
   @override
-  final Color secondaryText = Colors.grey;
+  final Color secondaryText = Colors.grey.shade700.withOpacity(0.5);
   @override
   final Color border = Colors.grey.shade600;
+  @override
+  final Color icon = Colors.grey.shade700.withOpacity(0.5);
 
   @override
   late final ThemeData themeData = ThemeData(

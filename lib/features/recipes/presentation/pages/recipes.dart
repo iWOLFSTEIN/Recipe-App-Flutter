@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:recipes_app/config/router/app_router.dart';
@@ -86,20 +85,23 @@ class RecipeItem extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.all(AppConstants.gap16Px),
+                            padding: const EdgeInsets.all(AppConstants.gap8Px),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Container(
-                                  padding: const EdgeInsets.all(
-                                      AppConstants.gap16Px),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: AppConstants.gap12Px,
+                                      vertical: AppConstants.gap4Px),
                                   decoration: BoxDecoration(
                                       borderRadius: const BorderRadius.all(
                                           Radius.circular(20)),
-                                      color: themeBloc.baseTheme.identity),
+                                      color: themeBloc.baseTheme.identity
+                                          .withOpacity(0.7)),
                                   child: Text(
                                     'Easy',
-                                    style: TextStyle(),
+                                    style: TextStyle(
+                                        color: themeBloc.baseTheme.primaryText),
                                   ),
                                 ),
                               ],
@@ -114,24 +116,33 @@ class RecipeItem extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(
                       horizontal: AppConstants.gap6Px),
-                  child: Column(
+                  child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Recipe name',
-                        style: TextStyle(
-                            color: themeBloc.baseTheme.primaryText,
-                            fontSize: AppConstants.font16Px,
-                            fontWeight: FontWeight.w600),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Recipe name',
+                            style: TextStyle(
+                                color: themeBloc.baseTheme.primaryText,
+                                fontSize: AppConstants.font16Px,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          Text(
+                            'Recipe name',
+                            style: TextStyle(
+                                color: themeBloc.baseTheme.secondaryText,
+                                fontSize: AppConstants.font12Px,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          const Gap(AppConstants.gap6Px),
+                        ],
                       ),
-                      Text(
-                        'Recipe name',
-                        style: TextStyle(
-                            color: themeBloc.baseTheme.secondaryText,
-                            fontSize: AppConstants.font12Px,
-                            fontWeight: FontWeight.w600),
-                      ),
-                      const Gap(AppConstants.gap6Px),
+                      const Spacer(),
+                      const RatingBar(
+                        rating: 3.6,
+                      )
                     ],
                   ),
                 )
@@ -144,6 +155,51 @@ class RecipeItem extends StatelessWidget {
             height: AppConstants.gap16Px,
           )
       ],
+    );
+  }
+}
+
+class RatingBar extends StatelessWidget {
+  const RatingBar({super.key, required this.rating});
+
+  final double rating;
+
+  @override
+  Widget build(BuildContext context) {
+    final themeBloc = context.read<ThemeBloc>();
+    final double ratingTruncated = rating.truncateToDouble();
+    bool isRatingFractional = ratingTruncated != rating;
+    return Row(
+      children: [
+        for (double count = 1; count <= 5; count++)
+          buildRatingIcon(count, ratingTruncated, isRatingFractional, themeBloc)
+      ],
+    );
+  }
+
+  Icon buildRatingIcon(
+      count, ratingTruncated, isRatingFractional, ThemeBloc themeBloc) {
+    if (rating == 0.0) {
+      return const Icon(
+        Icons.star_border,
+        size: 16,
+      );
+    }
+
+    bool isFilled = count <= ratingTruncated;
+    bool isHalfFilled = isRatingFractional && (ratingTruncated + 1) == count;
+    if (isHalfFilled) {
+      return const Icon(
+        Icons.star_half,
+        size: 16,
+        color: Colors.yellow,
+      );
+    }
+
+    return Icon(
+      isFilled ? Icons.star : Icons.star_border,
+      size: 16,
+      color: isFilled ? Colors.yellow : themeBloc.baseTheme.icon,
     );
   }
 }

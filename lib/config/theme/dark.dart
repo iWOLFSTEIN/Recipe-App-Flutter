@@ -18,9 +18,11 @@ class DarkTheme implements BaseTheme {
   @override
   final Color primaryText = Colors.white;
   @override
-  final Color secondaryText = Colors.grey;
+  final Color secondaryText = Colors.grey.shade300.withOpacity(0.7);
   @override
   final Color border = Colors.grey.shade300;
+  @override
+  final Color icon = Colors.grey.shade300;
 
   @override
   late final ThemeData themeData = ThemeData(
