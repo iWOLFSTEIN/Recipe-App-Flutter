@@ -72,12 +72,11 @@ class RecipeItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String coverImage = recipe.image ?? '';
-    final String name = recipe.name ?? '';
+    final String coverImage = recipe.image ?? '',
+        name = recipe.name ?? '',
+        difficulty = recipe.difficulty ?? '',
+        cuisine = recipe.cuisine ?? '';
     final double rating = recipe.rating ?? 0.0;
-    final String difficulty = recipe.difficulty ?? '';
-    final String cuisine = recipe.cuisine ?? '';
-    print(coverImage);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
