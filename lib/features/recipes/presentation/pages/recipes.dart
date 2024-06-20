@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
 import 'package:recipes_app/config/router/app_router.dart';
 import 'package:recipes_app/core/constants/app_constants.dart';
 import 'package:recipes_app/features/recipes/presentation/bloc/theme/theme_bloc.dart';
@@ -50,30 +52,91 @@ class RecipeItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          height: 400,
           width: double.infinity,
           decoration: BoxDecoration(
               border: Border.all(color: themeBloc.baseTheme.border),
               color: themeBloc.baseTheme.surface,
               borderRadius: const BorderRadius.all(Radius.circular(20))),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(AppConstants.gap16Px),
-                child: Container(
+          child: Padding(
+            padding: const EdgeInsets.all(AppConstants.gap6Px),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  height: 350,
                   decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      borderRadius: const BorderRadius.all(Radius.circular(15)),
                       border: Border.all(color: themeBloc.baseTheme.border)),
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    child: Image.network(
-                        'https://cdn.dummyjson.com/recipe-images/1.webp'),
+                  child: Stack(
+                    fit: StackFit.loose,
+                    children: [
+                      ClipRRect(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(15)),
+                        child: Image.network(
+                          'https://cdn.dummyjson.com/recipe-images/1.webp',
+                          height: 350,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(AppConstants.gap16Px),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.all(
+                                      AppConstants.gap16Px),
+                                  decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(20)),
+                                      color: themeBloc.baseTheme.identity),
+                                  child: Text(
+                                    'Easy',
+                                    style: TextStyle(),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
                   ),
                 ),
-              )
-            ],
+                const Gap(AppConstants.gap8Px),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: AppConstants.gap6Px),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Recipe name',
+                        style: TextStyle(
+                            color: themeBloc.baseTheme.primaryText,
+                            fontSize: AppConstants.font16Px,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      Text(
+                        'Recipe name',
+                        style: TextStyle(
+                            color: themeBloc.baseTheme.secondaryText,
+                            fontSize: AppConstants.font12Px,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      const Gap(AppConstants.gap6Px),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
         if (isLastItem)

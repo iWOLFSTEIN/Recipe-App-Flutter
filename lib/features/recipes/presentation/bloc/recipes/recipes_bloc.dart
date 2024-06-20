@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:recipes_app/core/resources/data_state.dart';
 import 'package:recipes_app/features/recipes/domain/entities/recipes.dart';
 import 'package:recipes_app/features/recipes/domain/usecases/recipes/get_recipes.dart';
 
@@ -13,8 +14,10 @@ class RecipesBloc extends Bloc<RecipesEvent, RecipesState> {
     on<RecipesEvent>(onGetRecipes);
   }
 
-  void onGetRecipes(RecipesEvent event, Emitter<RecipesState> emit) {
-    final dataState = _getRecipesUseCase();
-    // if (dataState.)
+  void onGetRecipes(RecipesEvent event, Emitter<RecipesState> emit) async {
+    emit(const RecipesLoading());
+    final dataState = await _getRecipesUseCase();
+    if (dataState is DataSuccess) emit(RecipesDone(dataState.data!));
+    if (dataState is DataFailed) emit(RecipesException(dataState.exception!));
   }
 }

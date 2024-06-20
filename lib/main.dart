@@ -5,9 +5,10 @@ import 'package:recipes_app/config/languages/language_config.dart';
 import 'package:recipes_app/config/router/app_router.dart';
 import 'package:recipes_app/core/constants/app_assets.dart';
 import 'package:recipes_app/features/recipes/presentation/bloc/language/language_bloc.dart';
+import 'package:recipes_app/features/recipes/presentation/bloc/recipes/recipes_bloc.dart';
 import 'package:recipes_app/features/recipes/presentation/bloc/theme/theme_bloc.dart';
 import 'package:easy_localization_loader/easy_localization_loader.dart';
-import 'package:recipes_app/injection_container.dart';
+import 'package:recipes_app/injection_container/injection_container.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,6 +36,9 @@ class MainApp extends StatelessWidget {
         create: (_) => sl(),
       ),
       BlocProvider<LanguageBloc>(
+        create: (_) => sl(),
+      ),
+      BlocProvider<RecipesBloc>(
         create: (_) => sl(),
       ),
     ], child: const RecipesApp());
