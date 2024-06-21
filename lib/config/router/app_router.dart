@@ -3,8 +3,10 @@ import 'package:go_router/go_router.dart';
 import 'package:recipes_app/config/router/custom_transitions.dart';
 import 'package:recipes_app/config/router/navigation_stack.dart';
 import 'package:recipes_app/config/router/route_item.dart';
+import 'package:recipes_app/features/recipes/domain/entities/recipes.dart';
 import 'package:recipes_app/features/recipes/presentation/pages/explore.dart';
 import 'package:recipes_app/features/recipes/presentation/pages/main_view.dart';
+import 'package:recipes_app/features/recipes/presentation/pages/recipe_detail_view.dart';
 import 'package:recipes_app/features/recipes/presentation/pages/recipes.dart';
 import 'package:recipes_app/features/recipes/presentation/pages/settings.dart';
 
@@ -17,6 +19,8 @@ class AppRouter {
       RouteItem(id: 1, name: 'explore', path: '/explore');
   static const RouteItem settings =
       RouteItem(id: 2, name: 'settings', path: '/settings');
+  static const RouteItem recipeDetailView = RouteItem(
+      id: 2, name: 'recipeDetailView', path: '/recipes/recipeDetailView');
 
   static final GlobalKey<NavigatorState> _shellNavigatorKey =
       GlobalKey<NavigatorState>();
@@ -48,6 +52,12 @@ class AppRouter {
               child: const Settings(),
             ),
           ),
+          GoRoute(
+              path: recipeDetailView.path,
+              pageBuilder: (context, state) => MaterialPage(
+                      child: RecipeDetailView(
+                    recipe: state.extra as RecipeEntity,
+                  ))),
         ],
       ),
     ],

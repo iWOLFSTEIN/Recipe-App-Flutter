@@ -23,6 +23,8 @@ class LightTheme implements BaseTheme {
   final Color border = Colors.grey.shade600;
   @override
   final Color icon = Colors.grey.shade700.withOpacity(0.5);
+  @override
+  final Color placeholder = Colors.grey.shade100;
 
   @override
   late final ThemeData themeData = ThemeData(

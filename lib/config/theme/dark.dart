@@ -23,6 +23,8 @@ class DarkTheme implements BaseTheme {
   final Color border = Colors.grey.shade300;
   @override
   final Color icon = Colors.grey.shade300;
+  @override
+  final Color placeholder = Colors.grey.shade900;
 
   @override
   late final ThemeData themeData = ThemeData(

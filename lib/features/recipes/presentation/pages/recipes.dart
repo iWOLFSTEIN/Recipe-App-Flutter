@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:recipes_app/config/router/app_router.dart';
 import 'package:recipes_app/core/constants/app_constants.dart';
 import 'package:recipes_app/features/recipes/domain/entities/recipes.dart';
 import 'package:recipes_app/features/recipes/presentation/bloc/recipes/recipes_bloc.dart';
 import 'package:recipes_app/features/recipes/presentation/bloc/theme/theme_bloc.dart';
+import 'package:recipes_app/features/recipes/presentation/widgets/custom_network_image.dart';
 import 'package:recipes_app/features/recipes/presentation/widgets/loading_error_info.dart';
 
 class Recipes extends StatefulWidget {
@@ -77,131 +80,105 @@ class RecipeItem extends StatelessWidget {
         difficulty = recipe.difficulty ?? '',
         cuisine = recipe.cuisine ?? '';
     final double rating = recipe.rating ?? 0.0;
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-              border: Border.all(color: themeBloc.baseTheme.border),
-              color: themeBloc.baseTheme.surface,
-              borderRadius: const BorderRadius.all(Radius.circular(20))),
-          child: Padding(
-            padding: const EdgeInsets.all(AppConstants.gap6Px),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  height: 350,
-                  decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(Radius.circular(15)),
-                      border: Border.all(color: themeBloc.baseTheme.border)),
-                  child: Stack(
-                    fit: StackFit.loose,
-                    children: [
-                      ClipRRect(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(15)),
-                        child: Image.network(
-                          coverImage,
-                          height: 350,
-                          fit: BoxFit.cover,
-                          loadingBuilder: (context, child, loadingProgress) {
-                            if (loadingProgress == null) return child;
-                            return Center(
-                              child: SizedBox(
-                                  width: 100,
-                                  height: 2,
-                                  child: LinearProgressIndicator(
-                                    value: (loadingProgress
-                                            .cumulativeBytesLoaded) /
-                                        (loadingProgress.expectedTotalBytes ??
-                                            1.0),
-                                  )),
-                            );
-                          },
-                          errorBuilder: (context, error, stackTrace) =>
-                              const Center(
-                                  child: Icon(
-                            Icons.broken_image,
-                            size: 24,
-                          )),
-                        ),
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(AppConstants.gap8Px),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: AppConstants.gap12Px,
-                                      vertical: AppConstants.gap4Px),
-                                  decoration: BoxDecoration(
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(20)),
-                                      color: themeBloc.baseTheme.identity
-                                          .withOpacity(0.7)),
-                                  child: Text(
-                                    difficulty,
-                                    style: TextStyle(
-                                        color: themeBloc.baseTheme.primaryText),
+    return GestureDetector(
+      onTap: () => context.push(AppRouter.recipeDetailView.path, extra: recipe),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+                border: Border.all(color: themeBloc.baseTheme.border),
+                color: themeBloc.baseTheme.surface,
+                borderRadius: const BorderRadius.all(Radius.circular(20))),
+            child: Padding(
+              padding: const EdgeInsets.all(AppConstants.gap6Px),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 350,
+                    child: Stack(
+                      fit: StackFit.loose,
+                      children: [
+                        CustomNetworkImage(coverImage: coverImage),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.all(AppConstants.gap8Px),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: AppConstants.gap12Px,
+                                        vertical: AppConstants.gap4Px),
+                                    decoration: BoxDecoration(
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(20)),
+                                        color: themeBloc.baseTheme.identity
+                                            .withOpacity(0.7)),
+                                    child: Text(
+                                      difficulty,
+                                      style: TextStyle(
+                                          color:
+                                              themeBloc.baseTheme.primaryText),
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
-                      )
-                    ],
+                          ],
+                        )
+                      ],
+                    ),
                   ),
-                ),
-                const Gap(AppConstants.gap8Px),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: AppConstants.gap6Px),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            name,
-                            style: TextStyle(
-                                color: themeBloc.baseTheme.primaryText,
-                                fontSize: AppConstants.font16Px,
-                                fontWeight: FontWeight.w600),
-                          ),
-                          Text(
-                            cuisine,
-                            style: TextStyle(
-                                color: themeBloc.baseTheme.secondaryText,
-                                fontSize: AppConstants.font12Px,
-                                fontWeight: FontWeight.w600),
-                          ),
-                          const Gap(AppConstants.gap6Px),
-                        ],
-                      ),
-                      const Spacer(),
-                      RatingBar(
-                        rating: rating,
-                      )
-                    ],
-                  ),
-                )
-              ],
+                  const Gap(AppConstants.gap8Px),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: AppConstants.gap6Px),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              name,
+                              style: TextStyle(
+                                  color: themeBloc.baseTheme.primaryText,
+                                  fontSize: AppConstants.font16Px,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            Text(
+                              cuisine,
+                              style: TextStyle(
+                                  color: themeBloc.baseTheme.secondaryText,
+                                  fontSize: AppConstants.font12Px,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            const Gap(AppConstants.gap6Px),
+                          ],
+                        ),
+                        const Spacer(),
+                        RatingBar(
+                          rating: rating,
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
-        ),
-        if (isLastItem)
-          const SizedBox(
-            height: AppConstants.gap16Px,
-          )
-      ],
+          if (isLastItem)
+            const SizedBox(
+              height: AppConstants.gap16Px,
+            )
+        ],
+      ),
     );
   }
 }

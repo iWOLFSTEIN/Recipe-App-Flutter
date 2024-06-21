@@ -11,6 +11,7 @@ abstract class BaseTheme {
   Color get secondaryText;
   Color get border;
   Color get icon;
+  Color get placeholder;
 
   ThemeData get themeData;
 }

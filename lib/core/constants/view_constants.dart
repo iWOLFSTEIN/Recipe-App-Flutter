@@ -8,6 +8,7 @@ class ViewConstants {
   static const String language = "language";
   static const String languages = "languages";
   static const String search = "search";
+  static const String ingredients = "ingredients";
 
   // Error Messages
   static const String anErrorOccured = "anErrorOccured";
