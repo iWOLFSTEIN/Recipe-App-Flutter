@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class RecipesTagsResponseEntity extends Equatable {
-  final List<String>? tags;
+  final List<dynamic>? tags;
 
   const RecipesTagsResponseEntity({this.tags});
 
