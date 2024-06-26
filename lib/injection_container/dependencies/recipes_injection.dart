@@ -8,6 +8,7 @@ import 'package:recipes_app/features/recipes/domain/usecases/recipes/get_recipes
 import 'package:recipes_app/features/recipes/domain/usecases/recipes_tags/get_recipes_tags.dart';
 import 'package:recipes_app/features/recipes/presentation/bloc/recipes/recipes_bloc.dart';
 import 'package:recipes_app/features/recipes/domain/repositories/recipes.dart';
+import 'package:recipes_app/features/recipes/presentation/bloc/recipes_tags/recipes_tags_bloc.dart';
 
 final sl = GetIt.instance;
 
@@ -25,4 +26,6 @@ void initializeRecipesDependencies() {
 
   // Bloc
   sl.registerFactory<RecipesBloc>(() => RecipesBloc(sl<GetRecipesUseCase>()));
+  sl.registerFactory<RecipesTagsBloc>(
+      () => RecipesTagsBloc(sl<GetRecipesTagsUseCase>()));
 }

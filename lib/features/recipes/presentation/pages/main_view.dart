@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
 import 'package:recipes_app/config/router/app_router.dart';
 import 'package:recipes_app/core/constants/app_assets.dart';
 import 'package:recipes_app/core/constants/app_constants.dart';
@@ -59,6 +62,7 @@ class _MainViewState extends State<MainView> {
         title: TranslatedText(
           labels[_selectedPageIndex],
         ),
+        actions: [if (_selectedPageIndex == 0) const RecipesTagsButton()],
       ),
       body: widget.child,
       bottomNavigationBar: BottomNavigationBar(
@@ -86,5 +90,54 @@ class _MainViewState extends State<MainView> {
             destinationId: index) ??
         0;
     setState(() {});
+  }
+}
+
+class RecipesTagsButton extends StatefulWidget {
+  const RecipesTagsButton({
+    super.key,
+  });
+
+  @override
+  State<RecipesTagsButton> createState() => _RecipesTagsButtonState();
+}
+
+class _RecipesTagsButtonState extends State<RecipesTagsButton> {
+  double rotation = 0;
+  @override
+  Widget build(BuildContext context) {
+    final themeBloc = context.read<ThemeBloc>();
+    return Padding(
+      padding: const EdgeInsets.only(
+          top: AppConstants.gap10Px, right: AppConstants.gap16Px),
+      child: GestureDetector(
+        onTap: () {
+          rotation = rotation == 0 ? pi : 0;
+          setState(() {});
+        },
+        child: Row(
+          children: [
+            TranslatedText(
+              ViewConstants.tags,
+              style: TextStyle(
+                  color: themeBloc.baseTheme.primary,
+                  fontSize: AppConstants.font14Px),
+            ),
+            const Gap(AppConstants.gap4Px),
+            TweenAnimationBuilder(
+              tween: Tween<double>(begin: 0, end: rotation),
+              duration: const Duration(milliseconds: 200),
+              builder: (context, value, child) => Transform.rotate(
+                angle: value,
+                child: Icon(
+                  Icons.keyboard_arrow_down,
+                  color: themeBloc.baseTheme.icon,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
