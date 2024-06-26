@@ -56,12 +56,14 @@ class DioApiManager implements ApiManager {
     }
   }
 
-  Map<String, dynamic> _processResponse(Response response) {
+  dynamic _processResponse(Response response) {
     if (response.statusCode == HttpStatus.ok) {
-      if (response.data is Map<String, dynamic>) {
+      if (response.data is String) {
+        return jsonDecode(response.data);
+      } else if (response.data is Map<String, dynamic>) {
         return response.data as Map<String, dynamic>;
-      } else if (response.data is String) {
-        return jsonDecode(response.data) as Map<String, dynamic>;
+      } else if (response.data is List<dynamic>) {
+        return response.data as List<dynamic>;
       } else {
         throw Exception('Unsupported response format');
       }

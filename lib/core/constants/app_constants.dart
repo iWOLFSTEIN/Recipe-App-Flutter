@@ -1,7 +1,8 @@
 class AppConstants {
   // Apis
   static const String baseUrl = 'https://dummyjson.com';
-  static const String recipes = 'https://dummyjson.com/recipes';
+  static const String recipes = '$baseUrl/recipes';
+  static const String recipesTags = '$baseUrl/recipes/tags';
   static Map<String, dynamic> headers() => {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
