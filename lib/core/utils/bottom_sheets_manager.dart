@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recipes_app/features/recipes/presentation/bloc/theme/theme_bloc.dart';
 
 dynamic showModalSheet({
   required BuildContext context,
@@ -8,6 +10,8 @@ dynamic showModalSheet({
   bool useSafeArea = true,
   bool isScrollControlled = false,
 }) async {
+  backgroundColor =
+      backgroundColor ?? context.read<ThemeBloc>().baseTheme.identity;
   final result = await showModalBottomSheet(
       useRootNavigator: true,
       context: context,

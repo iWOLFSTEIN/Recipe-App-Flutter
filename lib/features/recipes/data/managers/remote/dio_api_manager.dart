@@ -13,8 +13,7 @@ class DioApiManager implements ApiManager {
   }
 
   @override
-  Future<Map<String, dynamic>> get(String url,
-      {Map<String, dynamic>? queryParams}) async {
+  Future<dynamic> get(String url, {Map<String, dynamic>? queryParams}) async {
     try {
       final response = await _dio.get(url, queryParameters: queryParams);
       return _processResponse(response);

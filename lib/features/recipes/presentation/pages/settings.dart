@@ -25,8 +25,6 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        // AppRouter.navigationStack.removeLast();
-        // context.pop(AppRouter.settings.id);
         AppRouter.navigationStack
             .pop(context, currentId: AppRouter.settings.id);
         return true;
@@ -77,10 +75,7 @@ class LanguageTile extends StatelessWidget {
   }
 
   void onTap(context) {
-    showModalSheet(
-        backgroundColor: themeBloc.baseTheme.identity,
-        context: context,
-        content: const LanguageBottomSheet());
+    showModalSheet(context: context, content: const LanguageBottomSheet());
   }
 }
 

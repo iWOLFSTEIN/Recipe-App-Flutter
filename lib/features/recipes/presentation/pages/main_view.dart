@@ -8,7 +8,9 @@ import 'package:recipes_app/config/router/app_router.dart';
 import 'package:recipes_app/core/constants/app_assets.dart';
 import 'package:recipes_app/core/constants/app_constants.dart';
 import 'package:recipes_app/core/constants/view_constants.dart';
+import 'package:recipes_app/core/utils/bottom_sheets_manager.dart';
 import 'package:recipes_app/features/recipes/presentation/bloc/theme/theme_bloc.dart';
+import 'package:recipes_app/features/recipes/presentation/widgets/bottom_sheets/select_recipes_tag.dart';
 import 'package:recipes_app/features/recipes/presentation/widgets/translated_text.dart';
 
 class MainView extends StatefulWidget {
@@ -111,8 +113,12 @@ class _RecipesTagsButtonState extends State<RecipesTagsButton> {
       padding: const EdgeInsets.only(
           top: AppConstants.gap10Px, right: AppConstants.gap16Px),
       child: GestureDetector(
-        onTap: () {
-          rotation = rotation == 0 ? pi : 0;
+        onTap: () async {
+          rotation = pi;
+          setState(() {});
+          await showModalSheet(
+              context: context, content: const SelectRecipesTagBottomSheet());
+          rotation = 0;
           setState(() {});
         },
         child: Row(

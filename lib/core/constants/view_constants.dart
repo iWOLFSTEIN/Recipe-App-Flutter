@@ -10,6 +10,7 @@ class ViewConstants {
   static const String search = "search";
   static const String ingredients = "ingredients";
   static const String tags = "tags";
+  static const String selectRecipesTag = "selectRecipesTag";
 
   // Error Messages
   static const String anErrorOccured = "anErrorOccured";
