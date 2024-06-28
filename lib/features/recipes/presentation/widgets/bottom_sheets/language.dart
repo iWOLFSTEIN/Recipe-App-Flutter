@@ -86,20 +86,7 @@ class LanguageTile extends StatelessWidget {
                   ),
                   const Spacer(),
                   if (language == languageBloc.selectedLanguage)
-                    Container(
-                      padding: const EdgeInsets.all(AppConstants.gap4Px),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: themeBloc.baseTheme.border),
-                          color: themeBloc.baseTheme.identity,
-                          shape: BoxShape.circle),
-                      child: Center(
-                        child: Icon(
-                          Icons.check,
-                          color: themeBloc.baseTheme.contrast,
-                          size: 10,
-                        ),
-                      ),
-                    )
+                    const TileSelectedIcon()
                 ],
               )),
         ),
@@ -113,5 +100,30 @@ class LanguageTile extends StatelessWidget {
         .read<LanguageBloc>()
         .add(ChangedLanguageEvent(context: context, language: language));
     Navigator.pop(context);
+  }
+}
+
+class TileSelectedIcon extends StatelessWidget {
+  const TileSelectedIcon({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final themeBloc = context.read<ThemeBloc>();
+    return Container(
+      padding: const EdgeInsets.all(AppConstants.gap4Px),
+      decoration: BoxDecoration(
+          border: Border.all(color: themeBloc.baseTheme.border),
+          color: themeBloc.baseTheme.identity,
+          shape: BoxShape.circle),
+      child: Center(
+        child: Icon(
+          Icons.check,
+          color: themeBloc.baseTheme.contrast,
+          size: 10,
+        ),
+      ),
+    );
   }
 }

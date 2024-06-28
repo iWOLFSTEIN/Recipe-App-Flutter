@@ -9,8 +9,8 @@ class ViewConstants {
   static const String languages = "languages";
   static const String search = "search";
   static const String ingredients = "ingredients";
-  static const String tags = "tags";
-  static const String selectRecipesTag = "selectRecipesTag";
+  static const String categories = "categories";
+  static const String selectRecipes = "selectRecipes";
 
   // Error Messages
   static const String anErrorOccured = "anErrorOccured";

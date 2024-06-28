@@ -5,6 +5,7 @@ import 'package:recipes_app/features/recipes/data/repositories/recipes.dart';
 import 'package:recipes_app/features/recipes/data/repositories/recipes_tags.dart';
 import 'package:recipes_app/features/recipes/domain/repositories/recipes_tags.dart';
 import 'package:recipes_app/features/recipes/domain/usecases/recipes/get_recipes.dart';
+import 'package:recipes_app/features/recipes/domain/usecases/recipes/get_recipes_by_tags.dart';
 import 'package:recipes_app/features/recipes/domain/usecases/recipes_tags/get_recipes_tags.dart';
 import 'package:recipes_app/features/recipes/presentation/bloc/recipes/recipes_bloc.dart';
 import 'package:recipes_app/features/recipes/domain/repositories/recipes.dart';
@@ -23,9 +24,12 @@ void initializeRecipesDependencies() {
   sl.registerSingleton<GetRecipesUseCase>(GetRecipesUseCase(sl<RecipesRepo>()));
   sl.registerSingleton<GetRecipesTagsUseCase>(
       GetRecipesTagsUseCase(sl<RecipesTagsRepo>()));
+  sl.registerSingleton<GetRecipesByTagsUseCase>(
+      GetRecipesByTagsUseCase(sl<RecipesRepo>()));
 
   // Bloc
-  sl.registerFactory<RecipesBloc>(() => RecipesBloc(sl<GetRecipesUseCase>()));
+  sl.registerFactory<RecipesBloc>(() =>
+      RecipesBloc(sl<GetRecipesUseCase>(), sl<GetRecipesByTagsUseCase>()));
   sl.registerFactory<RecipesTagsBloc>(
       () => RecipesTagsBloc(sl<GetRecipesTagsUseCase>()));
 }

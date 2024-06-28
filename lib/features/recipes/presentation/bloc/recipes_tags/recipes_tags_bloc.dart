@@ -9,6 +9,7 @@ part 'recipes_tags_state.dart';
 
 class RecipesTagsBloc extends Bloc<RecipesTagsEvent, RecipesTagsState> {
   final GetRecipesTagsUseCase _getRecipesTagsUseCase;
+  late String tag = '';
   RecipesTagsBloc(this._getRecipesTagsUseCase)
       : super(const RecipesTagsLoading()) {
     on<RecipesTagsEvent>(onGetRecipesTags);
@@ -18,7 +19,9 @@ class RecipesTagsBloc extends Bloc<RecipesTagsEvent, RecipesTagsState> {
       RecipesTagsEvent event, Emitter<RecipesTagsState> emit) async {
     emit(const RecipesTagsLoading());
     final dataState = await _getRecipesTagsUseCase();
-    if (dataState is DataSuccess) emit(RecipesTagsDone(dataState.data!));
+    if (dataState is DataSuccess) {
+      emit(RecipesTagsDone(dataState.data!));
+    }
     if (dataState is DataFailed) {
       emit(RecipesTagsException(dataState.exception!));
     }

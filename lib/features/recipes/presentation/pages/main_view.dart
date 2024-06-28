@@ -9,6 +9,7 @@ import 'package:recipes_app/core/constants/app_assets.dart';
 import 'package:recipes_app/core/constants/app_constants.dart';
 import 'package:recipes_app/core/constants/view_constants.dart';
 import 'package:recipes_app/core/utils/bottom_sheets_manager.dart';
+import 'package:recipes_app/features/recipes/presentation/bloc/recipes_tags/recipes_tags_bloc.dart';
 import 'package:recipes_app/features/recipes/presentation/bloc/theme/theme_bloc.dart';
 import 'package:recipes_app/features/recipes/presentation/widgets/bottom_sheets/select_recipes_tag.dart';
 import 'package:recipes_app/features/recipes/presentation/widgets/translated_text.dart';
@@ -109,6 +110,7 @@ class _RecipesTagsButtonState extends State<RecipesTagsButton> {
   @override
   Widget build(BuildContext context) {
     final themeBloc = context.read<ThemeBloc>();
+    final recipesTagsBloc = context.watch<RecipesTagsBloc>();
     return Padding(
       padding: const EdgeInsets.only(
           top: AppConstants.gap10Px, right: AppConstants.gap16Px),
@@ -124,7 +126,9 @@ class _RecipesTagsButtonState extends State<RecipesTagsButton> {
         child: Row(
           children: [
             TranslatedText(
-              ViewConstants.tags,
+              recipesTagsBloc.tag.isNotEmpty
+                  ? recipesTagsBloc.tag
+                  : ViewConstants.categories,
               style: TextStyle(
                   color: themeBloc.baseTheme.primary,
                   fontSize: AppConstants.font14Px),

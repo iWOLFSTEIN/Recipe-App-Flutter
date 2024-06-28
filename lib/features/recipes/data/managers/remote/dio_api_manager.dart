@@ -67,6 +67,10 @@ class DioApiManager implements ApiManager {
         throw Exception('Unsupported response format');
       }
     } else {
+      final error = jsonDecode(response.data)['message'];
+      if (error != null) {
+        throw Exception(error);
+      }
       throw Exception('HTTP error: ${response.statusCode}');
     }
   }

@@ -3,8 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:recipes_app/core/constants/app_constants.dart';
 import 'package:recipes_app/core/constants/view_constants.dart';
+import 'package:recipes_app/features/recipes/presentation/bloc/recipes/recipes_bloc.dart';
 import 'package:recipes_app/features/recipes/presentation/bloc/recipes_tags/recipes_tags_bloc.dart';
 import 'package:recipes_app/features/recipes/presentation/bloc/theme/theme_bloc.dart';
+import 'package:recipes_app/features/recipes/presentation/widgets/bottom_sheets/language.dart';
 import 'package:recipes_app/features/recipes/presentation/widgets/loading_error_info.dart';
 import 'package:recipes_app/features/recipes/presentation/widgets/translated_text.dart';
 
@@ -39,7 +41,7 @@ class SelectRecipesTagBottomSheet extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(AppConstants.gap16Px),
                 child: TranslatedText(
-                  ViewConstants.selectRecipesTag,
+                  ViewConstants.selectRecipes,
                   style: TextStyle(
                       color: themeBloc.baseTheme.primaryText,
                       fontSize: AppConstants.font18Px,
@@ -54,50 +56,76 @@ class SelectRecipesTagBottomSheet extends StatelessWidget {
                           bottom: AppConstants.gap16Px),
                       itemCount: recipesTags.length,
                       itemBuilder: (context, index) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                              child: Container(
-                                width: double.infinity,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: AppConstants.gap16Px,
-                                    vertical: AppConstants.gap16Px),
-                                decoration: BoxDecoration(
-                                    color: themeBloc.baseTheme.surface
-                                        .withOpacity(0.4),
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(15))),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      recipesTags[index],
-                                      style: TextStyle(
-                                          color:
-                                              themeBloc.baseTheme.primaryText,
-                                          fontSize: AppConstants.font16Px),
-                                    ),
-                                    const Spacer(),
-                                    Icon(
-                                      Icons.arrow_forward,
-                                      color: themeBloc.baseTheme.primaryText,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                            if (index < recipesTags.length - 1)
-                              const Gap(AppConstants.gap8Px)
-                          ],
+                        return TagItem(
+                          recipesTags: recipesTags,
+                          themeBloc: themeBloc,
+                          index: index,
                         );
                       })),
             ],
           );
         },
       ),
+    );
+  }
+}
+
+class TagItem extends StatelessWidget {
+  const TagItem({
+    super.key,
+    required this.recipesTags,
+    required this.themeBloc,
+    required this.index,
+  });
+
+  final List recipesTags;
+  final ThemeBloc themeBloc;
+  final int index;
+
+  @override
+  Widget build(BuildContext context) {
+    final recipesTagsBloc = context.read<RecipesTagsBloc>();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        GestureDetector(
+          onTap: () {
+            recipesTagsBloc.tag = recipesTags[index] as String;
+            context
+                .read<RecipesBloc>()
+                .add(GetRecipes(tag: recipesTags[index]));
+            Navigator.pop(context);
+          },
+          child: Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(
+                horizontal: AppConstants.gap16Px,
+                vertical: AppConstants.gap16Px),
+            decoration: BoxDecoration(
+                color: themeBloc.baseTheme.surface.withOpacity(0.4),
+                borderRadius: const BorderRadius.all(Radius.circular(15))),
+            child: Row(
+              children: [
+                Text(
+                  recipesTags[index],
+                  style: TextStyle(
+                      color: themeBloc.baseTheme.primaryText,
+                      fontSize: AppConstants.font16Px),
+                ),
+                const Spacer(),
+                if (recipesTagsBloc.tag == recipesTags[index])
+                  const TileSelectedIcon()
+                else
+                  Icon(
+                    Icons.arrow_forward,
+                    color: themeBloc.baseTheme.primaryText,
+                  )
+              ],
+            ),
+          ),
+        ),
+        if (index < recipesTags.length - 1) const Gap(AppConstants.gap8Px)
+      ],
     );
   }
 }

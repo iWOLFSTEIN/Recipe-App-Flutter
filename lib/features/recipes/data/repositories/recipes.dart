@@ -11,4 +11,9 @@ class RecipesRepoImpl implements RecipesRepo {
   Future<DataState<RecipesResponseEntity>> getRecipes() async {
     return await _recipesApi.getRecipes();
   }
+
+  @override
+  Future<DataState<RecipesResponseEntity>> getRecipesByTag(String tag) async {
+    return await _recipesApi.getRecipesByTag(tag);
+  }
 }

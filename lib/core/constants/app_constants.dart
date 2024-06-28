@@ -3,6 +3,7 @@ class AppConstants {
   static const String baseUrl = 'https://dummyjson.com';
   static const String recipes = '$baseUrl/recipes';
   static const String recipesTags = '$baseUrl/recipes/tags';
+  static String recipesByTags(String tag) => '$baseUrl/recipes/tag/$tag';
   static Map<String, dynamic> headers() => {
         'Content-Type': 'application/json',
         'Accept': 'application/json',

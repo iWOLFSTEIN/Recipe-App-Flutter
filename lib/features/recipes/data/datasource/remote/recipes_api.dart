@@ -15,4 +15,12 @@ class RecipesApi {
                 await _apiManager.get(AppConstants.recipes)));
     return dataState;
   }
+
+  Future<DataState<RecipesResponse>> getRecipesByTag(String tag) async {
+    final DataState<RecipesResponse> dataState =
+        await ErrorHandler.onNetworkRequest<RecipesResponse>(
+            fetch: () async => RecipesResponse.fromJson(
+                await _apiManager.get(AppConstants.recipesByTags(tag))));
+    return dataState;
+  }
 }

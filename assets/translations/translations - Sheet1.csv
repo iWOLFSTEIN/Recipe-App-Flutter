@@ -11,5 +11,5 @@ search,Search,تلاش کریں۔,खोज
 anErrorOccured,An error occured,ایک خرابی آگئی ہے,एक त्रुटि हुई
 noDataFound,No data found,کوئی ڈیٹا نہیں ملا,डाटा प्राप्त नहीं हुआ
 ingredients,Ingredients,اجزاء,सामग्री
-tags,Tags,ٹیگز,टैग
-selectRecipesTag,Select Recipes Tag,ترکیبیں کا ٹیگ منتخب کریں۔,रेसिपी टैग चुनें
+categories,Categories,اقسام,श्रेणियाँ
+selectRecipes,Select Recipes,ترکیبیں منتخب کریں۔,रेसिपी चुनें

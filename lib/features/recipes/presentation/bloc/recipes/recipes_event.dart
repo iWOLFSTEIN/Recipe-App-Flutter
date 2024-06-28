@@ -1,12 +1,13 @@
 part of 'recipes_bloc.dart';
 
 sealed class RecipesEvent extends Equatable {
-  const RecipesEvent();
+  final String? tag;
+  const RecipesEvent({this.tag});
 
   @override
   List<Object> get props => [];
 }
 
 class GetRecipes extends RecipesEvent {
-  const GetRecipes();
+  const GetRecipes({super.tag});
 }

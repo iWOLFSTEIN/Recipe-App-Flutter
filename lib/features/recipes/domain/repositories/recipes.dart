@@ -3,4 +3,5 @@ import 'package:recipes_app/features/recipes/domain/entities/recipes.dart';
 
 abstract class RecipesRepo {
   Future<DataState<RecipesResponseEntity>> getRecipes();
+  Future<DataState<RecipesResponseEntity>> getRecipesByTag(String tag);
 }
