@@ -11,6 +11,7 @@ class ViewConstants {
   static const String ingredients = "ingredients";
   static const String categories = "categories";
   static const String selectRecipes = "selectRecipes";
+  static const String reviews = "reviews";
 
   // Error Messages
   static const String anErrorOccured = "anErrorOccured";

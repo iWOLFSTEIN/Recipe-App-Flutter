@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:recipes_app/config/router/app_router.dart';
 import 'package:recipes_app/core/constants/app_constants.dart';
+import 'package:recipes_app/core/constants/view_constants.dart';
 import 'package:recipes_app/features/recipes/domain/entities/recipes.dart';
 import 'package:recipes_app/features/recipes/presentation/bloc/recipes/recipes_bloc.dart';
 import 'package:recipes_app/features/recipes/presentation/bloc/theme/theme_bloc.dart';
@@ -183,9 +185,10 @@ class RecipeItem extends StatelessWidget {
 }
 
 class RatingBar extends StatelessWidget {
-  const RatingBar({super.key, required this.rating});
+  const RatingBar({super.key, required this.rating, this.reviewCount});
 
   final double rating;
+  final int? reviewCount;
 
   @override
   Widget build(BuildContext context) {
@@ -194,8 +197,25 @@ class RatingBar extends StatelessWidget {
     bool isRatingFractional = ratingTruncated != rating;
     return Row(
       children: [
-        for (double count = 1; count <= 5; count++)
-          buildRatingIcon(count, ratingTruncated, isRatingFractional, themeBloc)
+        Row(
+          children: [
+            for (double count = 1; count <= 5; count++)
+              buildRatingIcon(
+                  count, ratingTruncated, isRatingFractional, themeBloc)
+          ],
+        ),
+        if (reviewCount != null)
+          Row(
+            children: [
+              const Gap(AppConstants.gap6Px),
+              Text(
+                "($reviewCount ${ViewConstants.reviews.tr()})",
+                style: TextStyle(
+                    color: themeBloc.baseTheme.primaryText,
+                    fontSize: AppConstants.font12Px),
+              )
+            ],
+          ),
       ],
     );
   }

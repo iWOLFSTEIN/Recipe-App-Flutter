@@ -7,18 +7,20 @@ class CustomNetworkImage extends StatelessWidget {
       {super.key,
       required this.coverImage,
       this.borderRadius = 15,
-      this.height = 350});
+      this.height = 350,
+      this.width = double.infinity});
 
   final String coverImage;
   final double borderRadius;
   final double height;
+  final double width;
 
   @override
   Widget build(BuildContext context) {
     final themeBloc = context.read<ThemeBloc>();
     return Container(
       height: height,
-      width: double.infinity,
+      width: width,
       decoration: BoxDecoration(
           color: themeBloc.baseTheme.placeholder,
           border: Border.all(color: themeBloc.baseTheme.border),
